@@ -24,7 +24,7 @@ __version_info__ = ('1', '2', '6')
 __version__ = '.'.join(__version_info__)
 
 from numpy import double, empty, array, ndarray, var, cov, dot, expand_dims, \
-    ceil, sqrt
+    ceil, sqrt, float32
 from numpy.linalg import inv
 try:
     from scipy.spatial.distance import pdist
@@ -89,7 +89,7 @@ parameters and output format as the functions of the same name in the
 module scipy.cluster.hierarchy.
 
 The argument X is preferably a NumPy array with floating point entries
-(X.dtype==numpy.double). Any other data format will be converted before
+(X.dtype==numpy.float32). Any other data format will be converted before
 it is processed.
 
 If X is a one-dimensional array, it is considered a condensed matrix of
@@ -145,7 +145,7 @@ follows:
      contains all original input points.
 
 The output of linkage is stepwise dendrogram, which is represented as an
-(N−1)×4 NumPy array with floating point entries (dtype=numpy.double).
+(N−1)×4 NumPy array with floating point entries (dtype=numpy.float32).
 The first two columns contain the node indices which are joined in each
 step. The input nodes are labeled 0,...,N−1, and the newly generated
 nodes have the labels N,...,2N−2. The third column contains the distance
@@ -231,7 +231,7 @@ and simply ignores the mask.'''
     if X.ndim==1:
         if method=='single':
             preserve_input = False
-        X = array(X, dtype=double, copy=preserve_input, order='C', subok=True)
+        X = array(X, dtype=float32, copy=preserve_input, order='C', subok=True)
         NN = len(X)
         N = int(ceil(sqrt(NN*2)))
         if (N*(N-1)//2) != NN:
@@ -241,8 +241,8 @@ and simply ignores the mask.'''
         assert X.ndim==2
         N = len(X)
         X = pdist(X, metric=metric)
-        X = array(X, dtype=double, copy=False, order='C', subok=True)
-    Z = empty((N-1,4))
+        X = array(X, dtype=float32, copy=False, order='C', subok=True)
+    Z = empty((N-1,4), dtype=float32)
     if N > 1:
         linkage_wrap(N, X, Z, mthidx[method])
     return Z
@@ -300,7 +300,7 @@ Therefore, the available metrics with their definitions are listed below
 as a reference. The symbols u and v mostly denote vectors in R^D with
 coordinates u_j and v_j respectively. See below for additional metrics
 for Boolean vectors. Unless otherwise stated, the input array X is
-converted to a floating point array (X.dtype==numpy.double) if it does
+converted to a floating point array (X.dtype==numpy.float32) if it does
 not have already the required data type. Some metrics accept Boolean
 input; in this case this is stated explicitly below.
 
@@ -391,13 +391,13 @@ metric=(user function): The parameter metric may also be a function
 
 metric='hamming': The Hamming distance accepts a Boolean array
   (X.dtype==bool) for efficient storage. Any other data type is
-  converted to numpy.double.
+  converted to numpy.float32.
 
     d(u,v) = |{j | u_j≠v_j }|
 
 metric='jaccard': The Jaccard distance accepts a Boolean array
   (X.dtype==bool) for efficient storage. Any other data type is
-  converted to numpy.double.
+  converted to numpy.float32.
 
     d(u,v) = |{j | u_j≠v_j }| / |{j | u_j≠0 or v_j≠0 }|
     d(0,0) = 0
@@ -461,16 +461,16 @@ metric='sokalmichener' is an alias for 'matching'.'''
         assert metric!='USER'
         if metric in ('hamming', 'jaccard'):
             X = array(X, copy=False, subok=True)
-            dtype = bool if X.dtype==bool else double
+            dtype = bool if X.dtype==bool else float32
         else:
-            dtype = bool if metric in booleanmetrics else double
+            dtype = bool if metric in booleanmetrics else float32
         X = array(X, dtype=dtype, copy=False, order='C', subok=True)
     else:
         assert metric=='euclidean'
-        X = array(X, dtype=double, copy=(method=='ward'), order='C', subok=True)
+        X = array(X, dtype=float32, copy=(method=='ward'), order='C', subok=True)
     assert X.ndim==2
     N = len(X)
-    Z = empty((N-1,4))
+    Z = empty((N-1,4), dtype=float32)
 
     if metric=='seuclidean':
         if extraarg is None:
@@ -480,7 +480,7 @@ metric='sokalmichener' is an alias for 'matching'.'''
             extraarg = inv(cov(X, rowvar=False))
         # instead of the inverse covariance matrix, pass the matrix product
         # with the data matrix!
-        extraarg = array(dot(X,extraarg),dtype=double, copy=False, order='C', subok=True)
+        extraarg = array(dot(X,extraarg),dtype=float32, copy=False, order='C', subok=True)
     elif metric=='correlation':
         X = X-expand_dims(X.mean(axis=1),1)
         metric='cosine'

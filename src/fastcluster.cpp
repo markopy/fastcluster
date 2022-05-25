@@ -72,10 +72,10 @@
 #include <string> // for std::string
 
 #include <cfloat> // also for DBL_MAX, DBL_MIN
-#ifndef DBL_MANT_DIG
-#error The constant DBL_MANT_DIG could not be defined.
+#ifndef FLT_MANT_DIG
+#error The constant FLT_MANT_DIG could not be defined.
 #endif
-#define T_FLOAT_MANT_DIG DBL_MANT_DIG
+#define T_FLOAT_MANT_DIG FLT_MANT_DIG
 
 #ifndef LONG_MAX
 #include <climits>
@@ -149,7 +149,7 @@ typedef int_fast32_t t_index;
 #if (INT_MAX > MAX_INDEX)
 #error The integer format "int" must not have a greater range than "t_index".
 #endif
-typedef double t_float;
+typedef float t_float;
 
 /* Method codes.
 
