@@ -34,7 +34,7 @@ except ImportError:
                           'vector data since the function '
                           'scipy.spatial.distance.pdist could not be  '
                           'imported.')
-from _fastcluster import linkage_wrap, linkage_vector_wrap
+from _fastcluster_float32 import linkage_wrap, linkage_vector_wrap
 
 def single(D):
     '''Single linkage clustering (alias). See the help on the “linkage”

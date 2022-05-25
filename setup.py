@@ -13,7 +13,7 @@ import numpy
 from setuptools import setup, Extension
 from io import open
 
-with open('fastcluster.py', encoding='utf_8') as f:
+with open('fastcluster_float32.py', encoding='utf_8') as f:
     for line in f:
         if line.find('__version_info__ =') == 0:
             version = '.'.join(line.split("'")[1:-1:2])
@@ -22,9 +22,9 @@ with open('fastcluster.py', encoding='utf_8') as f:
 print('Fastcluster version: ' + version)
 print('Python version: ' + sys.version)
 
-setup(name='fastcluster',
+setup(name='fastcluster_float32',
       version=version,
-      py_modules=['fastcluster'],
+      py_modules=['fastcluster_float32'],
       description='Fast hierarchical clustering routines for R and Python.',
       long_description=u"""
 This library provides Python functions for hierarchical clustering. It
@@ -86,8 +86,8 @@ Clustering Routines for R and Python*, Journal of Statistical Software, **53**
       requires=['numpy'],
       install_requires=["numpy>=1.9"],
       extras_require={'test':  ['scipy>=1.6.3']},
-      provides=['fastcluster'],
-      ext_modules=[Extension('_fastcluster',
+      provides=['fastcluster_float32'],
+      ext_modules=[Extension('_fastcluster_float32',
                              ['src/fastcluster_python.cpp'],
                              extra_compile_args=['/EHsc'] if os.name == 'nt' else [],
                              include_dirs=[numpy.get_include()],

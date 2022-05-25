@@ -164,7 +164,7 @@ static PyMethodDef _fastclusterWrapMethods[] = {
 
 static struct PyModuleDef fastclustermodule = {
   PyModuleDef_HEAD_INIT,
-  "_fastcluster",
+  "_fastcluster_float32",
   NULL, // no module documentation
   -1,  /* size of per-interpreter state of the module,
           or -1 if the module keeps state in global variables. */
@@ -179,7 +179,7 @@ static struct PyModuleDef fastclustermodule = {
 #pragma GCC visibility push(default)
 #endif
 
-PyMODINIT_FUNC PyInit__fastcluster(void) {
+PyMODINIT_FUNC PyInit__fastcluster_float32(void) {
   PyObject * m;
   m = PyModule_Create(&fastclustermodule);
   if (!m) {
@@ -199,8 +199,8 @@ PyMODINIT_FUNC PyInit__fastcluster(void) {
 #pragma GCC visibility push(default)
 #endif
 
-PyMODINIT_FUNC init_fastcluster(void)  {
-  (void) Py_InitModule("_fastcluster", _fastclusterWrapMethods);
+PyMODINIT_FUNC init_fastcluster_float32(void)  {
+  (void) Py_InitModule("_fastcluster_float32", _fastclusterWrapMethods);
   import_array();  // Must be present for NumPy. Called first after above line.
 }
 

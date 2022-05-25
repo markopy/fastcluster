@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: fastcluster
+Name: fastcluster_float32
 Version: 1.2.6
 Summary: Fast hierarchical clustering routines for R and Python.
 Home-page: http://danifold.net
@@ -21,7 +21,7 @@ Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
 Classifier: Intended Audience :: Science/Research
 Classifier: Development Status :: 5 - Production/Stable
 Requires: numpy
-Provides: fastcluster
+Provides: fastcluster_float32
 Requires-Python: >=3
 Description-Content-Type: text/markdown
 Provides-Extra: test
